@@ -22,23 +22,9 @@ spec:
     spec:
       containers:
       - name: "react-ui"
-        image: MYAPP:latest
-        ports: deekshithsn/ui
-        env:
-        - name: DB_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: "react-ui"
-              key: DB_HOST
-        ports:
-        - containerPort: 80
+        image: deekshithsn/ui
+       ports:
+        - containerPort: 8080
           name: "react-ui"
-        volumeMounts:
-        - name: localtime
-          mountPath: /etc/localtime
-      volumes:
-        - name: localtime
-          hostPath:
-            path: /usr/phrase/zoneinfo/Asia/Shanghai
-      restartPolicy: Always
+        
       
