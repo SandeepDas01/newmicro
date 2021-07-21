@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "react-ui"
+  namespace: ms
+  labels:
+    app: "react-ui"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "react-ui"
+  strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: "react-ui"
+    spec:
+      containers:
+      - name: "react-ui"
+        image: MYAPP:latest
+        ports: deekshithsn/ui
+        env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: "react-ui"
+              key: DB_HOST
+        ports:
+        - containerPort: 80
+          name: "react-ui"
+        volumeMounts:
+        - name: localtime
+          mountPath: /etc/localtime
+      volumes:
+        - name: localtime
+          hostPath:
+            path: /usr/phrase/zoneinfo/Asia/Shanghai
+      restartPolicy: Always
+      
